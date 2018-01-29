@@ -1,2 +1,2 @@
 
-export { default as ConfigUi } from './configurable-ui';
+export { default as ConfigUi } from './Config-Ui-Component';
