@@ -25,11 +25,32 @@ describe('ConfigUiComponent',() => {
         }
       },
         {'animal': {
-          type: 'input'
+          type: 'input',
+          props: {
+            value: expectedValue,
+          }
         }
       }]
     };
 
+    const arrayConfigs =
+      [{
+        type: 'input',
+        props: {
+          value: expectedValue,
+        }
+      },
+      {
+       type: MyComponent,
+        props: {
+          text: 'itay123',
+        },
+        children: {
+          'name': {
+            type: 'div'
+          }
+        }
+      }];
     it('renders a configuration with an input and default value', () => {
       const component = mount((<ConfigUiComponent configuration={myConfigurationNotReact} />));
       //const isWithChildren = mount(component);
