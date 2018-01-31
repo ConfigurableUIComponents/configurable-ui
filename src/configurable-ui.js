@@ -38,7 +38,7 @@ class ConfigUi {
 
   createElement(config) {
     let element;
-    if (config.children && this.canHaveChildren(config)) {
+    if (typeof config.children === "object" && this.canHaveChildren(config)) {
       const children = this.createElements(config.children);
       element = React.createElement(
         config.type,
@@ -49,6 +49,7 @@ class ConfigUi {
       element = React.createElement(
         config.type,
         config.props,
+        config.children
       );
     }
     return element;
