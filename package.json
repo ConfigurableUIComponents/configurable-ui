@@ -4,8 +4,6 @@
   "main": "dist/configurable-ui.js",
   "scripts": {
     "build": "webpack --bail -p --config webpack.config.prod.js ",
-    "lint": "eslint src/ --ext .jsx,.js",
-    "lint-fix": "npm run lint -- --fix",
     "dev": "webpack-dev-server --config webpack.dev.config.js --color --hot -d --progress",
     "test": "jest"
   },
