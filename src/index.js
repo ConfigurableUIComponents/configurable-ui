@@ -1,2 +1,5 @@
+import * as configUtils from './config-utilities';
 
-export { default as ConfigUi } from './Config-Ui-Component';
+export const ConfigUtilities = configUtils;
+
+export ConfigUiComponent from './Config-Ui-Component';
