@@ -112,18 +112,6 @@ test('fulfilment with various Cards and things to fulfill', () => {
   expect(result.myFunc).toEqual(func);
 });
 
-test('fulfilment array property with a Card', () => {
-  const props = {
-    Card: func,
-    Itay: "itay"
-  };
-const config = {
-  myFulfillStr: "${Card}",
-  myArr: ["first", "${Card}"]
-};
-const result = fulfilment(config, props);
-expect(result.myArr[1]).toEqual(func); //I'm not sure this is what we would expect
-});
 
 test('fulfilment multiple props to fulfill(replace)', () => {
   const props = {
