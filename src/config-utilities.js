@@ -73,39 +73,43 @@ export function merge(layer0, layer1, isCloneNeeded) {
     }
 
     return base;
-};
-
-function isVarable(str){
-    let startWith = str.substring(0, 2);
-    let finishWith = str.substring(str.length - 1);
-    let isVarable = (startWith == '${') && (finishWith == '}');
-    return isVarable;
 }
 
-export function fulfilment(config, props, handlers) {
+function getFunctionName(str) {
+    let startWith = str.substring(0, 1);
+    let indexOfOpenCurlyBrackets = str.indexOf("{");
+    let finishWith = str.substring(str.length - 1);
+    let isValid = (startWith === '$') && (finishWith === '}') && (indexOfOpenCurlyBrackets!==-1);
+    if(isValid){
+        let functionName = str.substring(1, indexOfOpenCurlyBrackets);
+        return functionName;
+    }
+}
+
+export function fulfilment(config, data, handlers) {
     let fullConfig = {};
     for (const key in config) {
         let value = config[key];
         let newValue = value;
         if(isPlainObject(value)){
-            newValue = fulfilment(config[key], props, handlers);
+            newValue = fulfilment(config[key], data, handlers);
         }
         else if(isString(value)) {
-            if(isVarable(value)){
+            let functionName = getFunctionName(value);
+            if(functionName === undefined){
+                newValue = value;
+            }
+            else if(functionName === ''){ // ${x}
                 let path = value.substring(2, value.length - 1);
-                newValue = get(props, path);
+                newValue = get(data, path);
             }
             else{
                 if(handlers){
-                    for(var i=0; i<handlers.length; i++){
-                        let item = handlers[i];
-                        let predicate = item.predicate;
-                        let handler = item.handler;
-                        if(predicate(value)){
-                            newValue = handler(value);
-                            break;
-                        }
+                    let handler = handlers[functionName];
+                    if(handler) {
+                        newValue = handler(data);
                     }
+                    //TODO: else - warning
                 }
             }
         }
